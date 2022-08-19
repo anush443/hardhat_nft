@@ -1,24 +1,21 @@
-const pinataSDK = require("@pinata/sdk")
 const fs = require("fs")
 const path = require("path")
+const pinataSDK = require("@pinata/sdk")
 
-const pinataApiKey = process.env.PINATA_API_KEY
-const pinataApiSecret = process.env.PINATA_SECERET
-const pinata = pinataSDK(pinataApiKey, pinataApiSecret)
+const pinataApikey = process.env.PINATA_API_KEY
+const pinataApiSecret = process.env.PINATA_SECRET
+const pinata = pinataSDK(pinataApikey, pinataApiSecret)
 
 const storeImages = async (imagesFilePath) => {
-    const imagesFullPath = path.resolve(imagesFilePath)
-    console.log(imagesFullPath)
-    const files = fs.readdirSync(imagesFullPath)
-
-    //console.log(files)
     let responses = []
-    for (filesIndex in files) {
-        //console.log(`${imagesFullPath}/${files[filesIndex]}`)
-        const readableStreamforFile = fs.createReadStream(`${imagesFullPath}/${files[filesIndex]}`)
-        try {
-            const response = await pinata.pinFileToIPFS(readableStreamforFile)
+    const imagesFileFullPath = path.resolve(imagesFilePath)
+    const files = fs.readdirSync(imagesFileFullPath)
 
+    for (filesIndex in files) {
+        const readableFileStream = fs.createReadStream(`${imagesFileFullPath}/${files[filesIndex]}`)
+        try {
+            console.log(`Uploading ${files[filesIndex]} to pinata`)
+            const response = await pinata.pinFileToIPFS(readableFileStream)
             responses.push(response)
         } catch (error) {
             console.log(error)

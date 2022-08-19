@@ -1,8 +1,8 @@
 const { network } = require("hardhat")
-const { developmentChains } = require("../helper-hardhat-config")
+const { developmentChains, networkConfig } = require("../helper-hardhat-config")
 const { verify } = require("../utils/verify")
 const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata")
-console.log("Token URI uploaded!:")
+
 const imagesFilePath = "./images/chillingMollyNft"
 let tokenUri = []
 
@@ -21,12 +21,14 @@ const metadataTemplate = {
 module.exports = async ({ getNamedAccounts, deployments }) => {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
-
+    const chainId = network.config.chainId
     log("----------------------------------------------------")
     if (process.env.UPLOAD_TO_PINATA == "true") {
         tokenUri = await handleTokenUris()
     }
-    const arguments = tokenUri
+    const mintFee = networkConfig[chainId]["mintFee"]
+    const arguments = [...tokenUri, mintFee]
+
     const chillingMollyNft = await deploy("ChillingMollyNft", {
         from: deployer,
         args: arguments,
@@ -34,7 +36,6 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         waitConfirmations: network.config.blockConfirmations || 1,
     })
 
-    console.log("r")
     // Verify the deployment
     if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
         log("Verifying...")
@@ -44,17 +45,20 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
 const handleTokenUris = async () => {
     let tokenUri = []
-    const { responses: imageUploadRespones, files } = await storeImages(imagesFilePath)
-    for (imageUploadResponesIndex in imageUploadRespones) {
+    const { responses: imageUploadResponses, files } = await storeImages(imagesFilePath)
+
+    for (imageUploadResponsesIndex in imageUploadResponses) {
         let tokenUriMetadata = { ...metadataTemplate }
-        tokenUriMetadata.name = files[imageUploadResponesIndex].replace("png", "")
-        tokenUriMetadata.description = `${tokenUriMetadata.name} likes to eat and chill!`
-        tokenUriMetadata.image = `ipfs://${imageUploadRespones[imageUploadResponesIndex].IpfsHash}`
+        tokenUriMetadata.name = files[imageUploadResponsesIndex].replace("png", "")
+        tokenUriMetadata.description = `${tokenUriMetadata.name} likes to eat and chill!!!`
+        tokenUriMetadata.image = `ipfs://${imageUploadResponses[imageUploadResponsesIndex].IpfsHash}`
+        console.log(`Uploading ${tokenUriMetadata.name} metadata...`)
         const metadataUploadResponse = await storeTokenUriMetadata(tokenUriMetadata)
         tokenUri.push(`ipfs://${metadataUploadResponse.IpfsHash}`)
     }
-    console.log("Token URI uploaded!:")
+    console.log("Token URI uploaded!")
     console.log(tokenUri)
     return tokenUri
 }
+
 module.exports.tags = ["all", "chillingMollyNft", "main"]
