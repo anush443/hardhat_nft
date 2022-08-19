@@ -9,13 +9,14 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 error NotEnoughEthSent();
 error RangeOutOfBounds();
 error AlreadyInitialized();
+error RandomIPFSNfT__TransferFailed();
 
 contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
     /*Type Decalaration */
     enum Breed {
-        PUG,
-        SHIBA_INU,
-        ST_BERNARD
+        MOLLY,
+        GRUMPY,
+        INDIAN
     }
 
     /* Chainlink vrf Variables */
@@ -111,7 +112,9 @@ contract RandomIpfsNft is ERC721URIStorage, VRFConsumerBaseV2, Ownable {
     function withdraw() public onlyOwner {
         uint256 amount = address(this).balance;
         (bool success, ) = payable(msg.sender).call{value: amount}("");
-        require(success, "Transfer failed");
+        if (!success) {
+            revert RandomIPFSNfT__TransferFailed();
+        }
     }
 
     function getMintFee() public view returns (uint256) {

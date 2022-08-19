@@ -3,13 +3,13 @@ pragma solidity ^0.8.8;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract BasicNft is ERC721 {
-    string public constant TOKEN_URI =
-        "Ipfs://bafybeig37ioir76s7mg5oobetncojcm3c3hxasyd4rvid4jqhy4gkaheg4/?filename=0-PUG.json";
+contract ChillingMollyNft is ERC721 {
     uint256 private s_tokenCounter;
+    string private TOKEN_URI;
 
-    constructor() ERC721("Kitty", "Cat") {
+    constructor(string memory tokenUri) ERC721("Chilling Molly", "Cat") {
         s_tokenCounter = 0;
+        TOKEN_URI = tokenUri;
     }
 
     function mintNft() public returns (uint256) {
