@@ -94,3 +94,5 @@ const handleTokenUris = async () => {
     console.log(tokenUris)
     return tokenUris
 }
+
+module.exports.tags = ["all", "randomIpfsNft", "main"]

@@ -1,6 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const pinataSDK = require("@pinata/sdk")
+require("dotenv").config()
 
 const pinataApikey = process.env.PINATA_API_KEY
 const pinataApiSecret = process.env.PINATA_SECRET
