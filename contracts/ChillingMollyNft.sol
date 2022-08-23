@@ -22,8 +22,9 @@ contract ChillingMollyNft is ERC721, Ownable {
         if (msg.value < i_mintFee) {
             revert NotEnoughEthSent();
         }
+        s_tokenCounter = s_tokenCounter + 1;
         _safeMint(msg.sender, s_tokenCounter);
-        s_tokenCounter++;
+
         return s_tokenCounter;
     }
 

@@ -4,7 +4,7 @@ const { verify } = require("../utils/verify")
 const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata")
 
 const imagesFilePath = "./images/chillingMollyNft"
-let tokenUri = []
+let tokenUri = ["ipfs://QmPVu4La4keko51GEGdqx13mcWQ3ft4twVaeXhZ1hN3HRW"]
 
 const metadataTemplate = {
     name: "",
@@ -28,6 +28,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     }
     const mintFee = networkConfig[chainId]["mintFee"]
     const arguments = [...tokenUri, mintFee]
+    console.log(arguments)
 
     const chillingMollyNft = await deploy("ChillingMollyNft", {
         from: deployer,
@@ -49,11 +50,12 @@ const handleTokenUris = async () => {
 
     for (imageUploadResponsesIndex in imageUploadResponses) {
         let tokenUriMetadata = { ...metadataTemplate }
-        tokenUriMetadata.name = files[imageUploadResponsesIndex].replace("png", "")
+        tokenUriMetadata.name = files[imageUploadResponsesIndex].replace(".png", "")
         tokenUriMetadata.description = `${tokenUriMetadata.name} likes to eat and chill!!!`
         tokenUriMetadata.image = `ipfs://${imageUploadResponses[imageUploadResponsesIndex].IpfsHash}`
         console.log(`Uploading ${tokenUriMetadata.name} metadata...`)
         const metadataUploadResponse = await storeTokenUriMetadata(tokenUriMetadata)
+
         tokenUri.push(`ipfs://${metadataUploadResponse.IpfsHash}`)
     }
     console.log("Token URI uploaded!")

@@ -58,6 +58,7 @@ module.exports = {
             //   },
             saveDeployments: true,
             chainId: 4,
+            blockConfirmations: 6,
         },
         mainnet: {
             url: MAINNET_RPC_URL,
@@ -108,8 +109,9 @@ module.exports = {
             {
                 version: "0.8.8",
             },
+
             {
-                version: "0.4.24",
+                version: "0.6.6",
             },
         ],
     },

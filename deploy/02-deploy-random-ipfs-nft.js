@@ -10,7 +10,11 @@ const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata"
 const imagesFilePath = "./images/randomNft"
 const FUND_AMOUNT = "1000000000000000000000"
 
-let tokenUris = []
+let tokenUris = [
+    "ipfs://QmXwgL9Junkz9EUXmqDGPJYjQhh5BXQEA6SxMnvZyJTXAC",
+    "ipfs://Qma18MXRm5wPi89m7P38CP7MF44dPMY9raGr1WKsVVnJiy",
+    "ipfs://QmSGrKC9PUnKZFZN4VEGDvn1siK6vih9bFzEXfLe33kZhE",
+]
 
 const metadataTemplate = {
     name: "",
