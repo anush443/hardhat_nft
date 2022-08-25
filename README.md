@@ -1,1 +1,2 @@
-Chilling Molly cat Nft is deployed at 0x17AD7133c7d38A426886e33DD9eBe8E8a90f4438 rinkeby
+Chilling Molly v2 cat Nft is deployed at 0x52520EfF68b2E605706DC41A8E812898Ca3b0909 rinkeby
+RandomIpfsNft is deployed at rinkeby

@@ -12,7 +12,7 @@ contract ChillingMollyNft is ERC721, Ownable {
     string private TOKEN_URI;
     uint256 private immutable i_mintFee;
 
-    constructor(string memory tokenUri, uint256 mintFee) ERC721("Chilling Molly", "Cat") {
+    constructor(string memory tokenUri, uint256 mintFee) ERC721("Chilling Molly V2", "Cat") {
         s_tokenCounter = 0;
         TOKEN_URI = tokenUri;
         i_mintFee = mintFee;
@@ -48,3 +48,4 @@ contract ChillingMollyNft is ERC721, Ownable {
         return i_mintFee;
     }
 }
+//

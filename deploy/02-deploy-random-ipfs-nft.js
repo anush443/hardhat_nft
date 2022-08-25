@@ -11,9 +11,9 @@ const imagesFilePath = "./images/randomNft"
 const FUND_AMOUNT = "1000000000000000000000"
 
 let tokenUris = [
+    "ipfs://QmSGrKC9PUnKZFZN4VEGDvn1siK6vih9bFzEXfLe33kZhE",
     "ipfs://QmXwgL9Junkz9EUXmqDGPJYjQhh5BXQEA6SxMnvZyJTXAC",
     "ipfs://Qma18MXRm5wPi89m7P38CP7MF44dPMY9raGr1WKsVVnJiy",
-    "ipfs://QmSGrKC9PUnKZFZN4VEGDvn1siK6vih9bFzEXfLe33kZhE",
 ]
 
 const metadataTemplate = {
@@ -45,6 +45,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         const transactionResponse = await vrfCoordinatorV2Mock.createSubscription()
         const transactionReceipt = await transactionResponse.wait()
         subscriptionId = transactionReceipt.events[0].args.subId
+
         // Fund the subscription
         // Our mock makes it so we don't actually have to worry about sending fund
         await vrfCoordinatorV2Mock.fundSubscription(subscriptionId, FUND_AMOUNT)
@@ -66,6 +67,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         networkConfig[chainId]["mintFee"],
         tokenUris,
     ]
+    console.log(arguments)
 
     const randomIpfsNft = await deploy("RandomIpfsNft", {
         from: deployer,
