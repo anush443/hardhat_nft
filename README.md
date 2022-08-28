@@ -1,2 +1,3 @@
 Chilling Molly v2 cat Nft is deployed at 0x52520EfF68b2E605706DC41A8E812898Ca3b0909 rinkeby
 RandomIpfsNft is deployed at rinkeby
+DynamicSvgNft is deployed at rinkeby 0x509121dcf4Ba0F2E299a44bD49f81afa4AaE97CC rink
